@@ -8,9 +8,12 @@ namespace _2018_EjercicioConstructores
 {
     class Campo
     {
-        public double Largo { get; set; }
-        public double Ancho { get; set; }
-        public decimal ValorM2 { get; set; }
+        public event EventHandler Tamaño;
+        public event EventHandler Precio;
+
+        private double largo;
+        private double ancho;
+        private decimal valorM2;
 
         public Campo()
         {}
@@ -31,6 +34,62 @@ namespace _2018_EjercicioConstructores
             : this(ancho, largo)
         {
             ValorM2 = valor;
+        }
+
+        #region Propiedades
+        public double Ancho
+        {
+            get { return ancho; }
+            set
+            {
+                ancho = value;
+                ChequearSuperficie();
+            }
+        }
+
+        public double Largo
+        {
+            get { return largo; }
+            set
+            {
+                largo = value;
+                ChequearSuperficie();
+            }
+        }
+
+        public decimal ValorM2
+        {
+            get { return valorM2; }
+            set
+            {
+                valorM2 = value;
+                ChequearCosto();
+            }
+        }
+        #endregion
+
+        private void ChequearCosto()
+        {
+            if (CalcularCostoTotal() > 1000000)
+            {
+                if (Precio != null)
+                {
+                    Precio(this, new EventArgs());
+                }
+            }
+        }
+
+        private void ChequearSuperficie()
+        {
+            if (CalcularSuperficie() > 25000)
+            {
+                if (Tamaño != null)
+                {
+                    Tamaño(this, new EventArgs());
+                }
+            }
+
+            ChequearCosto();
         }
 
         public double CalcularSuperficie()
