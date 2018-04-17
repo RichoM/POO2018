@@ -20,17 +20,35 @@ namespace _2018_EjercicioConstructores
             InitializeComponent();
         }
 
+        private Campo CampoSeleccionado
+        {
+            get
+            {
+                if (camposGrid.SelectedRows.Count == 0) return null;
+                return ((CampoVista)camposGrid.SelectedRows[0].DataBoundItem).Origen();
+            }
+        }
+
         private void altaCampoButton_Click(object sender, EventArgs e)
         {
             Campo c = new Campo();
             c.Precio += EventoPrecio;
             c.Tamaño += EventoTamaño;
-            c.Ancho = double.Parse(Interaction.InputBox("Ancho?"));
-            c.Largo = double.Parse(Interaction.InputBox("Largo?"));
-            c.ValorM2 = decimal.Parse(Interaction.InputBox("Valor x m2?"));
+            ConfigurarCampo(c);
             campos.Add(c);
 
+            ActualizarGrilla();
+        }
 
+        private static void ConfigurarCampo(Campo c)
+        {
+            c.Ancho = double.Parse(Interaction.InputBox("Ancho?", "", c.Ancho.ToString()));
+            c.Largo = double.Parse(Interaction.InputBox("Largo?", "", c.Largo.ToString()));
+            c.ValorM2 = decimal.Parse(Interaction.InputBox("Valor x m2?", "", c.ValorM2.ToString()));
+        }
+
+        private void ActualizarGrilla()
+        {
             camposGrid.DataSource = null;
             camposGrid.DataSource = CampoVista.RetornaListaCampoVista(campos);
         }
@@ -47,6 +65,25 @@ namespace _2018_EjercicioConstructores
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            camposGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        }
+
+        private void borrarCampoButton_Click(object sender, EventArgs e)
+        {
+            if (CampoSeleccionado != null)
+            {
+                campos.Remove(CampoSeleccionado);
+                ActualizarGrilla();
+            }
+        }
+
+        private void modificarCampoButton_Click(object sender, EventArgs e)
+        {
+            if (CampoSeleccionado != null)
+            {
+                ConfigurarCampo(CampoSeleccionado);
+                ActualizarGrilla();
+            }
         }
     }
 }

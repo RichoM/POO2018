@@ -20,8 +20,11 @@ namespace _2018_EjercicioConstructores
             return listaCampoVista;
         }
 
+        private Campo origen;
+
         public CampoVista(Campo campo)
         {
+            origen = campo;
             Ancho = campo.Ancho;
             Largo = campo.Largo;
             ValorM2 = campo.ValorM2;
@@ -34,5 +37,10 @@ namespace _2018_EjercicioConstructores
         public decimal ValorM2 { get; set; }
         public double Superficie { get; set; }
         public decimal CostoTotal { get; set; }
+
+        public Campo Origen()
+        {
+            return origen;
+        }
     }
 }
