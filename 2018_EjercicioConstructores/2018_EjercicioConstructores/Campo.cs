@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace _2018_EjercicioConstructores
 {
-    class Campo
+    class Campo : IDisposable
     {
         public event EventHandler Tamaño;
         public event EventHandler Precio;
@@ -34,6 +35,11 @@ namespace _2018_EjercicioConstructores
             : this(ancho, largo)
         {
             ValorM2 = valor;
+        }
+
+        ~Campo()
+        {
+            MessageBox.Show("Se ejecutó el finalizador (también llamado destructor)");
         }
 
         #region Propiedades
@@ -102,5 +108,9 @@ namespace _2018_EjercicioConstructores
             return (decimal)CalcularSuperficie() * ValorM2;
         }
 
+        public void Dispose()
+        {
+            MessageBox.Show("Se ejecutó el método Dispose()");
+        }
     }
 }

@@ -73,6 +73,7 @@ namespace _2018_EjercicioConstructores
             if (CampoSeleccionado != null)
             {
                 campos.Remove(CampoSeleccionado);
+                CampoSeleccionado.Dispose();
                 ActualizarGrilla();
             }
         }
@@ -84,6 +85,22 @@ namespace _2018_EjercicioConstructores
                 ConfigurarCampo(CampoSeleccionado);
                 ActualizarGrilla();
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int cant = int.Parse(Interaction.InputBox("Cantidad?"));
+            for (int i = 0; i < cant; i++)
+            {
+                Campo c = new Campo(1, 2, 3);
+                campos.Add(c);
+            }
+            ActualizarGrilla();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            GC.Collect();
         }
     }
 }
